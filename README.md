@@ -2,7 +2,7 @@
 
 Opt-in validation strategy companion package for [`@adexdsamson/forge`](https://github.com/adexdsamson/Forge).
 
-> **Status:** M2 — built-in strategies + web `<ForgeSubmit>` (default / `asChild` / render-prop) gate submit on the active strategy's `canSubmit`. Existing `disabled` on the wrapped child is OR-merged. React Native composition (M3) and debounced async validation (M4) are not yet implemented. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
+> **Status:** M3 — built-in strategies + `<ForgeSubmit>` on web *and* React Native. On RN, `asChild` injects `disabled`, `accessibilityState.disabled`, and `enabled` together — so RN core `Pressable`, `react-native-gesture-handler`'s `Pressable`, and screen-reader semantics all stay in sync. Each prop OR-merges with the child's existing value. Debounced async validation (M4) and docs (M5) remain. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
 
 ## What this is
 
