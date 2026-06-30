@@ -14,6 +14,7 @@ import {
   type UseFormReturn,
 } from "react-hook-form";
 import { useForgeValidation } from "./ForgeValidation";
+import { isReactNative } from "./platform";
 import type { FieldState, ForgeState, Strategy } from "./types";
 
 /**
@@ -95,14 +96,8 @@ function renderShape(props: ForgeSubmitProps, disabled: boolean): ReactNode {
     if (!isValidElement(children)) {
       throw new Error("ForgeSubmit asChild requires a single React element child.");
     }
-    const onlyChild = Children.only(children) as ReactElement<
-      ButtonHTMLAttributes<HTMLButtonElement>
-    >;
-    const existing = Boolean(onlyChild.props.disabled);
-    return cloneElement(onlyChild, {
-      type: "submit",
-      disabled: existing || disabled,
-    });
+    const onlyChild = Children.only(children) as ReactElement<AsChildProps>;
+    return cloneElement(onlyChild, mergeAsChildProps(onlyChild.props, disabled));
   }
 
   return (
@@ -166,4 +161,48 @@ function readErrorMessage(errors: FieldErrors, name: string): string | undefined
     return typeof msg === "string" ? msg : undefined;
   }
   return undefined;
+}
+
+interface AsChildProps {
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  disabled?: boolean;
+  // React Native composition surface — typed loosely because RN types
+  // aren't a build-time dep of this package.
+  enabled?: boolean;
+  accessibilityState?: { disabled?: boolean } & Record<string, unknown>;
+}
+
+/**
+ * Build the prop set to inject into the cloned child in `asChild` mode.
+ *
+ * Web: `{ type: "submit", disabled: existing || ours }` — original M2 path.
+ *
+ * React Native: injects the triple `disabled` / `accessibilityState.disabled`
+ * / `enabled` so the child component picks up whichever prop it understands.
+ * `disabled` is recognized by RN core `Pressable`, `enabled` is recognized
+ * by `react-native-gesture-handler`'s `Pressable`, and `accessibilityState`
+ * is the screen-reader-correct path consumed by both. Each prop OR-merges
+ * with whatever the child already had so a parent-supplied `disabled` (e.g.
+ * an `isPending` spinner) is never silently overridden.
+ */
+function mergeAsChildProps(existing: AsChildProps, ourDisabled: boolean): Partial<AsChildProps> {
+  if (isReactNative()) {
+    const existingDisabled = Boolean(
+      existing.disabled || existing.accessibilityState?.disabled || existing.enabled === false
+    );
+    const finalDisabled = existingDisabled || ourDisabled;
+    return {
+      disabled: finalDisabled,
+      accessibilityState: {
+        ...existing.accessibilityState,
+        disabled: finalDisabled,
+      },
+      enabled: !finalDisabled,
+    };
+  }
+
+  return {
+    type: "submit",
+    disabled: Boolean(existing.disabled) || ourDisabled,
+  };
 }
