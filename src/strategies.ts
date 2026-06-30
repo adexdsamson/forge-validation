@@ -1,3 +1,4 @@
+import type { FieldValues } from "react-hook-form";
 import type {
   FieldState,
   ForgeState,
@@ -102,7 +103,7 @@ export const strategies: Record<StrategyName, Strategy> = {
  * (looked up in `strategies`) or a fully-specified `Strategy` value
  * (returned as-is).
  */
-export function resolveStrategy<TValues>(
+export function resolveStrategy<TValues extends FieldValues = FieldValues>(
   value: StrategyName | Strategy<TValues> | undefined
 ): Strategy<TValues> | null {
   if (value === undefined) return null;
