@@ -2,7 +2,7 @@
 
 Opt-in validation strategy companion package for [`@adexdsamson/forge`](https://github.com/adexdsamson/Forge).
 
-> **Status:** M1 — built-in strategies (`progressive`, `lenient`, `strict`, `standard`) are implemented as predicate objects and `<ForgeValidation strategy="...">` resolves string sugar. `<ForgeSubmit>` (M2/M3) and debounced async validation (M4) are not yet implemented. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
+> **Status:** M2 — built-in strategies + web `<ForgeSubmit>` (default / `asChild` / render-prop) gate submit on the active strategy's `canSubmit`. Existing `disabled` on the wrapped child is OR-merged. React Native composition (M3) and debounced async validation (M4) are not yet implemented. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
 
 ## What this is
 
