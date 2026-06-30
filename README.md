@@ -2,7 +2,7 @@
 
 Opt-in validation strategy companion package for [`@adexdsamson/forge`](https://github.com/adexdsamson/Forge).
 
-> **Status:** Scaffold only. M0 of the milestones in [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5). The provider is a no-op pass-through; strategies, `<ForgeSubmit>`, and debounced async validation are not yet implemented.
+> **Status:** M1 — built-in strategies (`progressive`, `lenient`, `strict`, `standard`) are implemented as predicate objects and `<ForgeValidation strategy="...">` resolves string sugar. `<ForgeSubmit>` (M2/M3) and debounced async validation (M4) are not yet implemented. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
 
 ## What this is
 

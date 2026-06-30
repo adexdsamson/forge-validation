@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import type { FieldValues } from "react-hook-form";
+import { resolveStrategy } from "./strategies";
 import type {
   ForgeValidationContextValue,
   Strategy,
@@ -12,27 +13,29 @@ export interface ForgeValidationProps<
   TValues extends FieldValues = FieldValues,
 > {
   /**
-   * Validation strategy. Either a built-in name (M1 will resolve these to
-   * predicate objects) or a fully-specified `Strategy` value. M0 accepts
-   * the prop but does not yet apply it.
+   * Validation strategy. Either a `StrategyName` string sugar
+   * (`"progressive"`, `"standard"`, `"strict"`, `"lenient"`) or a
+   * fully-specified `Strategy` predicate object.
    */
   strategy?: StrategyName | Strategy<TValues>;
   children: ReactNode;
 }
 
 /**
- * Provider for opt-in validation strategy. M0 ships an empty pass-through:
- * children render unchanged, the context exposes `strategy: null`. M1 will
- * resolve string sugar and wire `canSubmit` / `shouldShowError` into Forge
- * core's submit + error-display surface.
+ * Provider for opt-in validation strategy. The resolved `Strategy` is
+ * exposed via context; later milestones consume it from Forge core's
+ * submit + error-display surface. Until then, `useForgeValidation()`
+ * returns the resolved strategy for consumers who want to gate UI on
+ * `canSubmit` / `shouldShowError` themselves.
  */
 export function ForgeValidation<TValues extends FieldValues = FieldValues>({
-  strategy: _strategy,
+  strategy,
   children,
 }: ForgeValidationProps<TValues>) {
+  const resolved = useMemo(() => resolveStrategy(strategy), [strategy]);
   const value = useMemo<ForgeValidationContextValue>(
-    () => ({ strategy: null }),
-    []
+    () => ({ strategy: resolved as Strategy | null }),
+    [resolved]
   );
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
