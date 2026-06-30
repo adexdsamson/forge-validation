@@ -42,14 +42,8 @@ export interface ForgeState<TValues extends FieldValues = FieldValues> {
  */
 export interface Strategy<TValues extends FieldValues = FieldValues> {
   canSubmit: (state: ForgeState<TValues>) => boolean;
-  shouldShowError: (
-    field: FieldState,
-    state: ForgeState<TValues>
-  ) => boolean;
-  shouldValidate: (
-    field: FieldState,
-    trigger: ValidationTrigger
-  ) => boolean;
+  shouldShowError: (field: FieldState, state: ForgeState<TValues>) => boolean;
+  shouldValidate: (field: FieldState, trigger: ValidationTrigger) => boolean;
 }
 
 /**
