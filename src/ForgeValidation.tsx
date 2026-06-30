@@ -1,17 +1,11 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import type { FieldValues } from "react-hook-form";
 import { resolveStrategy } from "./strategies";
-import type {
-  ForgeValidationContextValue,
-  Strategy,
-  StrategyName,
-} from "./types";
+import type { ForgeValidationContextValue, Strategy, StrategyName } from "./types";
 
 const Context = createContext<ForgeValidationContextValue | null>(null);
 
-export interface ForgeValidationProps<
-  TValues extends FieldValues = FieldValues,
-> {
+export interface ForgeValidationProps<TValues extends FieldValues = FieldValues> {
   /**
    * Validation strategy. Either a `StrategyName` string sugar
    * (`"progressive"`, `"standard"`, `"strict"`, `"lenient"`) or a

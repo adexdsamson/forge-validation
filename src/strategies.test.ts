@@ -2,10 +2,7 @@ import { describe, expect, it } from "vitest";
 import { resolveStrategy, strategies } from "./strategies";
 import type { FieldState, ForgeState } from "./types";
 
-function field(
-  name: string,
-  overrides: Partial<FieldState> = {}
-): FieldState {
+function field(name: string, overrides: Partial<FieldState> = {}): FieldState {
   return {
     name,
     value: undefined,
@@ -73,21 +70,15 @@ describe("strategies — standard", () => {
   });
 
   it("hides errors on untouched, never-submitted fields", () => {
-    expect(s.shouldShowError(field("x", { error: "bad" }), state())).toBe(
-      false
-    );
+    expect(s.shouldShowError(field("x", { error: "bad" }), state())).toBe(false);
   });
 
   it("shows errors after touch", () => {
-    expect(
-      s.shouldShowError(field("x", { error: "bad", isTouched: true }), state())
-    ).toBe(true);
+    expect(s.shouldShowError(field("x", { error: "bad", isTouched: true }), state())).toBe(true);
   });
 
   it("shows errors after a submit attempt even when untouched", () => {
-    expect(
-      s.shouldShowError(field("x", { error: "bad" }), state({ submitCount: 1 }))
-    ).toBe(true);
+    expect(s.shouldShowError(field("x", { error: "bad" }), state({ submitCount: 1 }))).toBe(true);
   });
 
   it("skips change-trigger validation, runs blur/submit/manual", () => {
@@ -124,15 +115,11 @@ describe("strategies — progressive", () => {
   });
 
   it("hides errors on untouched fields", () => {
-    expect(s.shouldShowError(field("x", { error: "bad" }), state())).toBe(
-      false
-    );
+    expect(s.shouldShowError(field("x", { error: "bad" }), state())).toBe(false);
   });
 
   it("shows errors after touch", () => {
-    expect(
-      s.shouldShowError(field("x", { error: "bad", isTouched: true }), state())
-    ).toBe(true);
+    expect(s.shouldShowError(field("x", { error: "bad", isTouched: true }), state())).toBe(true);
   });
 
   it("validates on change only when the field is already showing an error", () => {
@@ -160,17 +147,12 @@ describe("strategies — lenient", () => {
 
   it("hides errors until a submit attempt", () => {
     expect(
-      s.shouldShowError(
-        field("x", { error: "bad", isTouched: true }),
-        state({ submitCount: 0 })
-      )
+      s.shouldShowError(field("x", { error: "bad", isTouched: true }), state({ submitCount: 0 }))
     ).toBe(false);
   });
 
   it("shows errors after submit attempt", () => {
-    expect(
-      s.shouldShowError(field("x", { error: "bad" }), state({ submitCount: 1 }))
-    ).toBe(true);
+    expect(s.shouldShowError(field("x", { error: "bad" }), state({ submitCount: 1 }))).toBe(true);
   });
 
   it("validates only on submit / manual", () => {

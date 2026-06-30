@@ -56,9 +56,7 @@ export type StrategyName = "progressive" | "lenient" | "strict" | "standard";
  * Context value exposed by `<ForgeValidation>`. M0 ships an empty shape;
  * later milestones populate `strategy` and validator-control surface.
  */
-export interface ForgeValidationContextValue<
-  TValues extends FieldValues = FieldValues,
-> {
+export interface ForgeValidationContextValue<TValues extends FieldValues = FieldValues> {
   strategy: Strategy<TValues> | null;
 }
 

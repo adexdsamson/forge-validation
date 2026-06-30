@@ -5,12 +5,7 @@ import { strategies } from "./strategies";
 
 function StrategyProbe() {
   const ctx = useForgeValidation();
-  const label =
-    ctx === null
-      ? "no-ctx"
-      : ctx.strategy === null
-        ? "no-strategy"
-        : "has-strategy";
+  const label = ctx === null ? "no-ctx" : ctx.strategy === null ? "no-strategy" : "has-strategy";
   return <span data-testid="probe">{label}</span>;
 }
 
@@ -56,9 +51,7 @@ describe("ForgeValidation", () => {
     const custom = { ...strategies.strict, canSubmit: () => false };
     function CustomProbe() {
       const ctx = useForgeValidation();
-      return (
-        <span data-testid="probe">{String(ctx?.strategy === custom)}</span>
-      );
+      return <span data-testid="probe">{String(ctx?.strategy === custom)}</span>;
     }
     render(
       <ForgeValidation strategy={custom}>

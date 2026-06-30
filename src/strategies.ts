@@ -1,11 +1,5 @@
 import type { FieldValues } from "react-hook-form";
-import type {
-  FieldState,
-  ForgeState,
-  Strategy,
-  StrategyName,
-  ValidationTrigger,
-} from "./types";
+import type { FieldState, ForgeState, Strategy, StrategyName, ValidationTrigger } from "./types";
 
 function hasAnyError(state: ForgeState): boolean {
   for (const key in state.errors) {
@@ -31,8 +25,7 @@ function hasErrorOnTouchedField(state: ForgeState): boolean {
  * forms, irreversible actions).
  */
 const strict: Strategy = {
-  canSubmit: (state) =>
-    !hasAnyError(state) && !state.isSubmitting && !state.isValidating,
+  canSubmit: (state) => !hasAnyError(state) && !state.isSubmitting && !state.isValidating,
   shouldShowError: (field) => field.error !== undefined,
   shouldValidate: () => true,
 };
@@ -64,10 +57,8 @@ const standard: Strategy = {
  */
 const progressive: Strategy = {
   canSubmit: (state) => !hasErrorOnTouchedField(state) && !state.isSubmitting,
-  shouldShowError: (field) =>
-    field.error !== undefined && field.isTouched,
-  shouldValidate: (field, trigger) =>
-    trigger !== "change" || field.error !== undefined,
+  shouldShowError: (field) => field.error !== undefined && field.isTouched,
+  shouldValidate: (field, trigger) => trigger !== "change" || field.error !== undefined,
 };
 
 /**
@@ -79,10 +70,8 @@ const progressive: Strategy = {
  */
 const lenient: Strategy = {
   canSubmit: (state) => !state.isSubmitting,
-  shouldShowError: (field, state) =>
-    field.error !== undefined && state.submitCount > 0,
-  shouldValidate: (_field, trigger) =>
-    trigger === "submit" || trigger === "manual",
+  shouldShowError: (field, state) => field.error !== undefined && state.submitCount > 0,
+  shouldValidate: (_field, trigger) => trigger === "submit" || trigger === "manual",
 };
 
 /**
