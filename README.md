@@ -2,7 +2,7 @@
 
 Opt-in validation strategy companion package for [`@adexdsamson/forge`](https://github.com/adexdsamson/Forge).
 
-> **Status:** M3 — built-in strategies + `<ForgeSubmit>` on web *and* React Native. On RN, `asChild` injects `disabled`, `accessibilityState.disabled`, and `enabled` together — so RN core `Pressable`, `react-native-gesture-handler`'s `Pressable`, and screen-reader semantics all stay in sync. Each prop OR-merges with the child's existing value. Debounced async validation (M4) and docs (M5) remain. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
+> **Status:** M4 — strategies + `<ForgeSubmit>` (web + RN) + `createAsyncValidator()` for debounced, abort-aware async field validation. The wrapper aborts in-flight `AbortController`s on new triggers, swallows `AbortError`, and drops stale resolutions from misbehaving validators with a dev-mode warning. Cross-field validation stays in the resolver layer (Zod/Yup). Only docs (M5) remain. Tracking: [adexdsamson/Forge#5](https://github.com/adexdsamson/Forge/issues/5).
 
 ## What this is
 
