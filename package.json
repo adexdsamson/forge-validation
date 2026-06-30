@@ -1,6 +1,6 @@
 {
   "name": "@adexdsamson/forge-validation",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Opt-in validation strategy companion package for @adexdsamson/forge — strategies, debounced async validation with abort, and submit gating.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
